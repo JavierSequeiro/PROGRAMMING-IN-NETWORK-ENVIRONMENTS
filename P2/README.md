@@ -1,2 +1,2 @@
 ## Practice 2
-Hello Javier Sequeiro
+Hello Javier
