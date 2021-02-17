@@ -7,4 +7,6 @@ for i in range (0, limit - 2):
     fibonacci_list.append(fn)
     x = y
     y = fn
-print(fibonacci_list)
+#print(fibonacci_list)
+for i in fibonacci_list:
+    print(i, end= " ")
