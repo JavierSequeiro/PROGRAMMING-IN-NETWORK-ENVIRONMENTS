@@ -1,13 +1,11 @@
 def fibon(n):
-    x = 0
+    x = 1
     y = 1
-    fibonacci_list = [x, y]
-    for i in range(0, n - 1):
+    for i in range(0, n - 2):
         fn = x + y
-        fibonacci_list.append(fn)
         x = y
         y = fn
-    return fibonacci_list[-1]
+    return fn
 
 print("5th Fibonacci term: ", fibon(5))
 print("10th Fibonacci term: ", fibon(10))
