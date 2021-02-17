@@ -10,6 +10,6 @@ def sum(n):
         summatory += i
     return summatory
 
-#number = int(input("Enter the last element of the sum: "))
+#number = int(input("Enter the last element of the sum: ")) =)
 print(f"The sum of the first {20} numbers  is ", sum(20))
 
