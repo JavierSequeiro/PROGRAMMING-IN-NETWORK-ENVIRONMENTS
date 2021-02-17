@@ -2,7 +2,8 @@ def read_file(file):
     nucleotides_list = []
     with open(file, "r") as f:
         for line in f:
-            line = line.strip("\n")
+            #sline = line.rstrip("\n")
+            line = line.replace("\n", "")
             for c in line:
                 nucleotides_list.append(c)
     return nucleotides_list
