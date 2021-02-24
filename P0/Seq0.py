@@ -19,3 +19,4 @@ def seq_count_bases(filename):
     useful_genome = file_contents[file_contents.find("\n"):].replace("\n", "")
     return useful_genome.count("A"), useful_genome.count("C"), useful_genome.count("T"), useful_genome.count("G")
 
+
