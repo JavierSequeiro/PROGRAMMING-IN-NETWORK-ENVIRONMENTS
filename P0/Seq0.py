@@ -21,3 +21,19 @@ def seq_count_bases(filename):
 
 def seq_reverse(sequence):
     return sequence[::-1]
+
+def seq_complement(sequence):
+    complement = ""
+    for nucleotide in sequence:
+        if nucleotide == "A":
+            complement += "T"
+
+        elif nucleotide == "T":
+            complement += "A"
+
+        elif nucleotide == "C":
+            complement += "G"
+
+        elif nucleotide == "G":
+            complement += "C"
+    return complement
