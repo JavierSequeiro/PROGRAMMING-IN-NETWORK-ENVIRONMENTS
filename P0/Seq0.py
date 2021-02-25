@@ -37,3 +37,4 @@ def seq_complement(sequence):
         elif nucleotide == "G":
             complement += "C"
     return complement
+
