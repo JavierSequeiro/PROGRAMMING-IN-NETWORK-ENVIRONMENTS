@@ -23,8 +23,6 @@ class Seq:
         return len(self.strbases)
 
 
-seq_list = [Seq("ACT"), Seq("GATA"), Seq("CAGATA")]
-
 def print_seqs(seq_list):
     data_list = []
     for sequence in seq_list:
@@ -32,5 +30,6 @@ def print_seqs(seq_list):
          data_list.append(data)
     return data_list
 
+seq_list = [Seq("ACT"), Seq("GATA"), Seq("CAGATA")]
 for gene in print_seqs(seq_list):
     print(gene)
