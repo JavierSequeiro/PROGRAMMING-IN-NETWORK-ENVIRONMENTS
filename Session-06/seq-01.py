@@ -1,18 +1,4 @@
-class Seq:
-    """A class for presenting sequences"""
-    def __init__(self, strbases):
-        self.strbases = strbases
-        print("New sequence created!")
-
-    def __str__(self):
-        """Method called when the object is being printed"""
-
-        # We just return the string with the sequence
-        return self.strbases
-
-    def len(self):
-        """Calculate the length of the sequence"""
-        return len(self.strbases)
+from Seq_Module import Seq
 
 class Gene(Seq):
     """This class is derived from the Seq Class
