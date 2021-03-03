@@ -2,15 +2,17 @@ class Seq:
     """A class for presenting sequences"""
     def __init__(self, strbases):
         self.strbases = strbases
-        count = 0
-        for nucleotide in strbases:
-            if nucleotide != "A" and nucleotide != "C" and nucleotide != "T" and nucleotide != "G":
-                count += 1
-        if count != 0:
+        if Seq.is_valid_sequence(self):
+            print("New sequence created!")
+        else:
             self.strbases = "ERROR"
             print("ERROR")
-        else:
-            print("New sequence created!")
+
+    def is_valid_sequence(self):
+        for nucleotide in self.strbases:
+            if nucleotide != "A" and nucleotide != "C" and nucleotide != "T" and nucleotide != "G":
+                return False
+        return True
 
     def __str__(self):
         """Method called when the object is being printed"""
