@@ -65,3 +65,9 @@ class Seq:
                 else:
                     complement_gene += "C"
             return complement_gene
+
+    def read_fasta(self, file):
+        from pathlib import Path
+        file_contents = Path(file).read_text()
+        self.strbases = file_contents[file_contents.find("\n"):].replace("\n", "")
+        return self.strbases
