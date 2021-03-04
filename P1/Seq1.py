@@ -43,3 +43,9 @@ class Seq:
         #if self.strbases == "NULL" or self.strbases == "ERROR":
             #self.strbases = ""
         return self.strbases.count("A"), self.strbases.count("C"), self.strbases.count("T"), self.strbases.count("G")
+
+    def reverse(self):
+        if self.strbases == "NULL" or self.strbases == "ERROR":
+            return self.strbases
+        else:
+            return self.strbases[::-1]
