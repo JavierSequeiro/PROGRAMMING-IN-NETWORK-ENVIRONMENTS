@@ -49,3 +49,19 @@ class Seq:
             return self.strbases
         else:
             return self.strbases[::-1]
+
+    def complement(self):
+        if self.strbases == "NULL" or self.strbases == "ERROR":
+            return self.strbases
+        else:
+            complement_gene = ""
+            for nucleotide in self.strbases:
+                if nucleotide == "A":
+                    complement_gene += "T"
+                elif nucleotide == "T":
+                    complement_gene += "A"
+                elif nucleotide == "C":
+                    complement_gene += "G"
+                else:
+                    complement_gene += "C"
+            return complement_gene
