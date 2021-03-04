@@ -1,5 +1,4 @@
 from Seq1 import Seq
-from pathlib import Path
 
 print("-----| Practice 1, Exercise 9 |------")
 
