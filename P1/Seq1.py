@@ -40,7 +40,6 @@ class Seq:
             return len(self.strbases)
 
     def count_base(self):
-        if self.strbases == "NULL" or self.strbases == "ERROR":
-            self.strbases = ""
-
+        #if self.strbases == "NULL" or self.strbases == "ERROR":
+            #self.strbases = ""
         return self.strbases.count("A"), self.strbases.count("C"), self.strbases.count("T"), self.strbases.count("G")
