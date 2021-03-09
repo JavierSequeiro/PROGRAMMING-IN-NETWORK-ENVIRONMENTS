@@ -1,0 +1,48 @@
+DNS 1
+
+DESTINATION IP: 192.168.1.38
+NAME: MY COMPUTER
+TIME: Minimum = 0ms, Maximum = 0ms, Average = 0ms
+---------------------------
+DNS 2
+
+DESTINATION IP: 212.128.255.129
+NAME: f-l3208-pc01 (FUENLABRADA COMPUTER)
+TIME: NO RESPONSE
+---------------------------
+DNS 3
+
+DESTINATION IP: 8.8.8.8
+NAME: GOOGLE
+TIME: Minimum = 4ms, Maximum = 14ms, Average = 9ms
+---------------------------
+DNS 4
+
+DESTINATION IP: 192.168.1.12
+NAME: MY IPHONE
+TIME: Minimum = 14ms, Maximum = 409ms, Average = 147ms
+---------------------------
+DNS 5
+
+DESTINATION IP: 212.128.240.50
+NAME: www.urjc.es
+TIME:  Minimum = 9ms, Maximum = 15ms, Average = 11ms
+---------------------------
+DNS 6
+
+DESTINATION IP: 140.82.121.3
+NAME: github.com
+TIME:  Minimum = 31ms, Maximum = 46ms, Average = 36ms
+---------------------------
+DNS 7
+
+DESTINATION IP: 91.198.174.192
+NAME: wikipedia.org
+TIME:  Minimum = 32ms, Maximum = 33ms, Average = 32ms
+---------------------------
+DNS 8
+
+DESTINATION IP: 103.223.184.84
+NAME: newdomain.com.au
+TIME: NO RESPONSE
+---------------------------
