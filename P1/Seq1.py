@@ -1,15 +1,16 @@
 class Seq:
     """A class for presenting sequences"""
-
-    def __init__(self, strbases="NULL"):
+    NULL_SEQUENCE = "NULL"
+    INVALID_SEQUENCE = "ERROR"
+    def __init__(self, strbases=NULL_SEQUENCE):
         self.strbases = strbases
-        if self.strbases == "NULL":
+        if self.strbases == Seq.NULL_SEQUENCE:
             print("NULL Seq created")
 
         elif Seq.is_valid_sequence(self):
             print("New sequence created!")
         else:
-            self.strbases = "ERROR"
+            self.strbases = Seq.INVALID_SEQUENCE
             print("ERROR")
 
     def is_valid_sequence(self):
@@ -34,7 +35,7 @@ class Seq:
 
     def len(self):
         """Calculate the length of the sequence"""
-        if self.strbases == "NULL" or self.strbases == "ERROR":
+        if self.strbases == Seq.NULL_SEQUENCE or self.strbases == Seq.INVALID_SEQUENCE:
             return 0
         else:
             return len(self.strbases)
@@ -45,13 +46,13 @@ class Seq:
         return self.strbases.count("A"), self.strbases.count("C"), self.strbases.count("T"), self.strbases.count("G")
 
     def reverse(self):
-        if self.strbases == "NULL" or self.strbases == "ERROR":
+        if self.strbases == Seq.NULL_SEQUENCE or self.strbases == Seq.INVALID_SEQUENCE:
             return self.strbases
         else:
             return self.strbases[::-1]
 
     def complement(self):
-        if self.strbases == "NULL" or self.strbases == "ERROR":
+        if self.strbases == Seq.NULL_SEQUENCE or self.strbases == Seq.INVALID_SEQUENCE:
             return self.strbases
         else:
             complement_gene = ""
