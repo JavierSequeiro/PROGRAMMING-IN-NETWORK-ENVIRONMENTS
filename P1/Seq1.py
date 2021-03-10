@@ -41,9 +41,11 @@ class Seq:
             return len(self.strbases)
 
     def count_base(self):
-        #if self.strbases == "NULL" or self.strbases == "ERROR":
-            #self.strbases = ""
-        return self.strbases.count("A"), self.strbases.count("C"), self.strbases.count("T"), self.strbases.count("G")
+        a, c, t, g = 0, 0, 0, 0
+        if self.strbases == Seq.NULL_SEQUENCE or self.strbases == Seq.INVALID_SEQUENCE:
+            return a, c, t, g
+        else:
+            return self.strbases.count("A"), self.strbases.count("C"), self.strbases.count("T"), self.strbases.count("G")
 
     def reverse(self):
         if self.strbases == Seq.NULL_SEQUENCE or self.strbases == Seq.INVALID_SEQUENCE:
