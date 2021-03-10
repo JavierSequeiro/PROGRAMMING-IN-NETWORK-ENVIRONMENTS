@@ -47,6 +47,19 @@ class Seq:
         else:
             return self.strbases.count("A"), self.strbases.count("C"), self.strbases.count("T"), self.strbases.count("G")
 
+    def count_bases_no_count(self):
+        a, c, g, t = 0, 0, 0, 0
+        if (not self.strbases == Seq.NULL_SEQUENCE) and (not self.strbases == Seq.INVALID_SEQUENCE):
+            for ch in self.strbases:
+                if ch == "A":
+                    a += 1
+                elif ch == "C":
+                    c += 1
+                elif ch == "G":
+                    g += 1
+                else:
+                    t += 1
+        return a, c, g, t
     def reverse(self):
         if self.strbases == Seq.NULL_SEQUENCE or self.strbases == Seq.INVALID_SEQUENCE:
             return self.strbases
