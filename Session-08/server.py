@@ -10,17 +10,17 @@ MAX_OPEN_REQUESTS = 5
 connection_count = 0
 
 # CREATE AN INET, STREAMING SOCKET
-servercocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 try:
-    servercocket.bind((IP, PORT))
+    serversocket.bind((IP, PORT))
     #WE ARE A SERVER SOCKET NOW
     # MAX OPEN REQUESTS CONNECTS REQUESTS UNTIL LIMIT SET
-    servercocket.listen(MAX_OPEN_REQUESTS)
+    serversocket.listen(MAX_OPEN_REQUESTS)
 
     while True:
         #ACCEPT CONNECTIONS FROM OUTSIDE
         print("Waiting for connections at {}, {} ".format(IP, PORT))
-        (clientsocket, address) = servercocket.accept()
+        (clientsocket, address) = serversocket.accept()
 
         # NEW CONNECTION
         connection_count += 1
@@ -43,4 +43,4 @@ except socket.error:
 
 except KeyboardInterrupt:
     print("Server stopped by the user")
-    servercocket.close()
+    serversocket.close()
