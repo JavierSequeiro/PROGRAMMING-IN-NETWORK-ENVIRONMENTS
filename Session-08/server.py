@@ -33,8 +33,8 @@ try:
         print("Message from client: {}".format(message))
 
         #NOW SEND OUR MESSAGE, USING BYTES
-        #server_message = "Hello from Javier's server"
-        server_message = input("Send the client a message: ")
+        server_message = "Hello from Javier's server"
+        #server_message = input("Send the client a message: ")
         send_bytes = str.encode(server_message)
 
         clientsocket.send(send_bytes)
