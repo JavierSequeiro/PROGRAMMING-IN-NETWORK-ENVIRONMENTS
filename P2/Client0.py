@@ -30,9 +30,8 @@ class Client:
         s.send(str.encode(msg))
         response = s.recv(2048).decode("utf-8")
         s.close()
-        return response
+        return f"From server: {response}"
 
     def debug_talk(self):
-        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        s.connect((self.ip, self.port))
-        message = s.send(str.encode())
+        import termcolor
+
