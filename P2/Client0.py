@@ -17,7 +17,7 @@ class Client:
     def advanced_ping(self):
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         try:
-            s.connect(self.ip, self.port)
+            s.connect((self.ip, self.port))
             print("SERVER WORKS FINE")
         except ConnectionRefusedError:
             print("COULDN'T FIND THAT SERVER")
@@ -25,7 +25,14 @@ class Client:
 
     def talk(self, msg):
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        s.connect(self.ip, self.port)
+        s.connect((self.ip, self.port))
+        print(f"To server: {msg}")
         s.send(str.encode(msg))
+        response = s.recv(2048).decode("utf-8")
         s.close()
+        return response
 
+    def debug_talk(self):
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        s.connect((self.ip, self.port))
+        message = s.send(str.encode())
