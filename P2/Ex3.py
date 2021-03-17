@@ -6,4 +6,4 @@ print(s)
 print("Sending message to the server...")
 
 response = s.talk("Hello dude!!")
-print(response)
+print(f"Response: {response}")
