@@ -26,12 +26,19 @@ class Client:
     def talk(self, msg):
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         s.connect((self.ip, self.port))
-        print(f"To server: {msg}")
+        #print(f"To server: {msg}")
         s.send(str.encode(msg))
         response = s.recv(2048).decode("utf-8")
         s.close()
-        return f"From server: {response}"
+        return response
 
-    def debug_talk(self):
+    def debug_talk(self, message):
         import termcolor
+        # print(f"To server: {msg}")
+        client_msg = termcolor.cprint(message, "blue")
+        response = self.talk(message)
+        coloured_response = termcolor.cprint(response, "green")
+        return client_msg, coloured_response
+
+
 
