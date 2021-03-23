@@ -1,16 +1,17 @@
 from Client0 import Client
-import termcolor
-
+import colorama
 print("------| Practice 2, Exercise 4 |------")
 
 s = Client("192.168.1.38", 8080)
 m = Client("192.168.1.38", 8080)
 print(s)
-message = "Hello dude"
-client, server = s.debug_talk(message)
-print(f"To server: {client}")
-print(f"From server: {server}")
+colorama.init(autoreset=True)
 
-client2, server2 = m.debug_talk("See you man!")
-print(f"To server: {client2}")
-print(f"From server: {server2}")
+message = "Hello dude"
+client, server = s.debug_talk(f"{message}")
+print(client)
+print(server)
+message_2 = "See you man!"
+client2, server2 = m.debug_talk(f"{message_2}")
+print(client2)
+print(server2)
