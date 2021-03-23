@@ -34,17 +34,13 @@ class Client:
 
     def debug_talk(self, message):
         import colorama
-        from colorama import Fore, Style
-        # print(f"To server: {msg}")
+        from colorama import Fore
         colorama.reinit()
         colored_client_message = f"{Fore.GREEN} {message}"
         response = f" {Fore.GREEN} {self.talk(colored_client_message)}"
         print_response = f"From server: {response}"
         client_msg = f"{Fore.BLUE} {message}"
         print_client_msg = f"To server: {client_msg}"
-        #response = f"{Fore.GREEN} {self.talk(message)}"
-        #print_response = f"From server: {response}"
-        #coloured_response = Fore.GREEN
         return print_client_msg, print_response
 
 
