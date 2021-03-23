@@ -1,7 +1,7 @@
 import socket
-
+import colorama
 # SERVER'S IP, PORT
-
+colorama.init(autoreset=True)
 PORT = 8080
 IP = "192.168.1.38"
 MAX_OPEN_REQUESTS = 100
