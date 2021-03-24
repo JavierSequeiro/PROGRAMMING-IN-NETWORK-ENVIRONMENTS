@@ -26,7 +26,6 @@ class Client:
     def talk(self, msg):
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         s.connect((self.ip, self.port))
-        #print(f"To server: {msg}")
         s.send(str.encode(msg))
         response = s.recv(2048).decode("utf-8")
         s.close()
