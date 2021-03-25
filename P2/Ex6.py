@@ -12,5 +12,6 @@ client, server = s.debug_talk(useful_gene)
 print(f"Gene {gene_name}: {client}")
 
 for i in range (0, 5):
-    gene, response = s.debug_talk(useful_gene[10*i:10 + 10*i])
-    print(f"Fragment {i + 1}: {gene}")
+    fragment = f"Fragment {i+1}: {useful_gene[10*i:10 + 10*i]}"
+    gene, response = s.debug_talk(fragment)
+    print(gene)
