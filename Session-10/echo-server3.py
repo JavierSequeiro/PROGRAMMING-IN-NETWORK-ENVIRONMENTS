@@ -33,5 +33,6 @@ while True:
         client_socket.send(server_response.encode())
         client_socket.close()
         if connection_count == 5:
+            print("The following people have connected to the server: ")
             for i in ip_port_list:
                 print(f"Client {ip_port_list.index(i)}: {i}")
