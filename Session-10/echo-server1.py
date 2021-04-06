@@ -3,7 +3,7 @@ import colorama
 from colorama import Fore
 
 PORT = 8080
-IP = "192.168.1.38"
+IP = "192.168.1.39"
 
 colorama.init(autoreset=True)
 sl = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

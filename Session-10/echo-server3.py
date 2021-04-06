@@ -3,7 +3,7 @@ import colorama
 from colorama import Fore
 
 PORT = 8080
-IP = "192.168.1.38"
+IP = "192.168.1.39"
 connection_count = 0
 ip_port_list = []
 
