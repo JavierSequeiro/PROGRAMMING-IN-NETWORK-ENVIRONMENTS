@@ -23,7 +23,6 @@ while True:
 
     else:
         msg_bytes = client_socket.recv(2048)
-        print(msg_bytes)
         msg_string = msg_bytes.decode()
         useful_string = msg_string.replace("\n", "").replace("\r", "")
         print(useful_string == 'PING')
