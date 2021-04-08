@@ -6,7 +6,8 @@ import server_utils
 
 PORT = 8080
 IP = "127.0.0.1"
-gene_list = ["ACTTTGGATGATCAT", "CGAAATTGCTAGCA", "TAAAACGCCTGATGC", "GGTACGGAATCGAT", "ATCCCCCCGAAT"]
+#seq_list = ["ACTTTGGATGATCAT", "CGAAATTGCTAGCA", "TAAAACGCCTGATGC", "GGTACGGAATCGAT", "ATCCCCCCGAAT"]
+seq_list = ["ACCTCCTCTCCAGCAATGCCAACCCCAGTCCAGGCCCCCATCCGCCCAGGATCTCGATCA", "AAAAACATTAATCTGTGGCCTTTCTTTGCCATTTCCAACTCTGCCACCTCCATCGAACGA", "CAAGGTCCCCTTCTTCCTTTCCATTCCCGTCAGCTTCATTTCCCTAATCTCCGTACAAAT", "CCCTAGCCTGACTCCCTTTCCTTTCCATCCTCACCAGACGCCCGCATGCCGGACCTCAAA", "AGCGCAAACGCTAAAAACCGGTTGAGTTGACGCACGGAGAGAAGGGGTGTGTGGGTGGGT"]
 
 colorama.init(autoreset=True)
 sl = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -34,7 +35,7 @@ while True:
             server_utils.ping(client_socket)
 
         elif separate_strings[0] == "GET":
-            server_utils.get_sequence(client_socket, int(separate_strings[1]), gene_list)
+            server_utils.get_sequence(client_socket, int(separate_strings[1]), seq_list)
 
         elif separate_strings[0] == "INFO":
             server_utils.info(client_socket, separate_strings[1])
@@ -44,5 +45,8 @@ while True:
 
         elif separate_strings[0] == "REV":
             server_utils.reverse(client_socket, separate_strings[1])
+
+        elif separate_strings[0] == "GENE":
+            server_utils.gene(client_socket, separate_strings[1])
         client_socket.close()
 

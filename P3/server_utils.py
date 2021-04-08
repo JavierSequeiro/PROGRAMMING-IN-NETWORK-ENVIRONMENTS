@@ -54,3 +54,13 @@ def reverse(client_socket, sequence):
     reverse_seq = useful_seq.reverse()
     print(reverse_seq)
     client_socket.send(reverse_seq.encode())
+
+def gene(client_socket, gene):
+    print(Fore.GREEN + "GENE")
+    sequence = Seq()
+    try:
+        complete_seq = sequence.read_fasta(f"{gene}.txt")
+        print(complete_seq)
+        client_socket.send(complete_seq.encode())
+    except FileNotFoundError:
+        print("THE CLIENT MUST ENTER AN AVAILABLE GENE")
