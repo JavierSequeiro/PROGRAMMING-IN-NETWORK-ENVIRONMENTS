@@ -1,11 +1,12 @@
 import socket
 import colorama
-from colorama import Fore
-from Seq1 import Seq
+#from colorama import Fore
+#from Seq1 import Seq
+import server_utils
 
 PORT = 8080
 IP = "127.0.0.1"
-gene_list = ["U5.txt", "ADA.txt", "FRAT1.txt", "FXN.txt", "RNU6_269P.txt"]
+gene_list = ["ACTTTGGATGATCAT", "CGAAATTGCTAGCA", "TAAAACGCCTGATGC", "GGTACGGAATCGAT", "ATCCCCCCGAAT"]
 
 colorama.init(autoreset=True)
 sl = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -23,21 +24,15 @@ while True:
 
     else:
         msg_bytes = client_socket.recv(2048)
+        print(msg_bytes)
         msg_string = msg_bytes.decode()
-        useful_string = msg_string.replace("\n", "").replace("\r", "")
-        print(useful_string == 'PING')
-        if "PING" in msg_string:
-            print(Fore.GREEN + "PING command")
-            server_response = "OK!\n"
-            print(server_response)
-            client_socket.send(server_response.encode())
+        useful_string = server_utils.modified_message(msg_string)
+        separate_strings = useful_string.split(" ")
+        print(separate_strings[0] == 'GET')
 
-        elif "GET" in msg_string:
-            for i in range(0, 4):
-                if str(i) in msg_string:
-                    seq_index = i
-                    sequence = Seq.read_fasta(gene_list[seq_index])
-                    print(Fore.GREEN + "GET")
-                    print(sequence)
-                    client_socket.send(sequence.encode())
+        if "PING" == server_utils.modified_message(msg_string):
+            server_utils.ping(client_socket)
+
+        elif separate_strings[0] == "GET":
+            server_utils.get_sequence(client_socket, int(separate_strings[1]), gene_list)
         client_socket.close()
