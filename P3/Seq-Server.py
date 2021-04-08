@@ -41,5 +41,8 @@ while True:
 
         elif separate_strings[0] == "COMP":
             server_utils.complementary(client_socket, separate_strings[1])
+
+        elif separate_strings[0] == "REV":
+            server_utils.reverse(client_socket, separate_strings[1])
         client_socket.close()
 
