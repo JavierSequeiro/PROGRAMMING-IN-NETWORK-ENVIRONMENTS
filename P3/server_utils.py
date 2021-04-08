@@ -38,3 +38,11 @@ def info(client_socket, sequence):
         nuc_info = f"{nucleotides_names[i]}: {nucleotides_list[i]} ({(nucleotides_list[i] * 100) / len(sequence)}%)"
         print(nuc_info)
         client_socket.send(nuc_info.encode())
+
+def complementary(client_socket, sequence):
+    print(Fore.GREEN + "COMP")
+
+    useful_seq = Seq(sequence)
+    complementary_seq = useful_seq.complement()
+    print(complementary_seq)
+    client_socket.send(complementary_seq.encode())
