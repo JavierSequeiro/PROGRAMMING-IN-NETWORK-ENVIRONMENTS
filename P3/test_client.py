@@ -1,19 +1,32 @@
 import socket
 import server_utils
-
+from Client0 import Client
 print("-----| Practice 3, Exercise 7 |------")
 PORT = 8080
 IP = "127.0.0.1"
 
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-s.connect((IP, PORT))
 
 module_seq_list = ["PING", "GET", "INFO", "COMP", "REV", "GENE"]
 seq_list = ["ACCTCCTCTCCAGCAATGCCAACCCCAGTCCAGGCCCCCATCCGCCCAGGATCTCGATCA", "AAAAACATTAATCTGTGGCCTTTCTTTGCCATTTCCAACTCTGCCACCTCCATCGAACGA", "CAAGGTCCCCTTCTTCCTTTCCATTCCCGTCAGCTTCATTTCCCTAATCTCCGTACAAAT", "CCCTAGCCTGACTCCCTTTCCTTTCCATCCTCACCAGACGCCCGCATGCCGGACCTCAAA", "AGCGCAAACGCTAAAAACCGGTTGAGTTGACGCACGGAGAGAAGGGGTGTGTGGGTGGGT"]
 
-for module in module_seq_list:
-    print(f"Testing {module}...")
-    s.send(str.encode(module + seq_list[0]))
+client = Client(IP, PORT)
+print(client)
 
-s.close()
+#PING TESTING
+print("Testing INFO...")
+print(client.talk("PING"))
+
+#GET TESTING
+print("Testing GET...")
+for i in range(0, 4):
+    sequence = client.talk(f"GET {i}")
+    print(f"GET {i}: {sequence}")
+
+#INFO TESTING
+print("Testing INFO...")
+print(client.talk(f"INFO {seq_list[0]}"))
+
+
+
+
