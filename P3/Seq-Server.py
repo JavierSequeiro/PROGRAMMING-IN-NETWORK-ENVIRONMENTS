@@ -24,15 +24,19 @@ while True:
 
     else:
         msg_bytes = client_socket.recv(2048)
-        print(msg_bytes)
         msg_string = msg_bytes.decode()
         useful_string = server_utils.modified_message(msg_string)
         separate_strings = useful_string.split(" ")
-        print(separate_strings[0] == 'GET')
+        #print(separate_strings[0] == 'INFO')
+        #print(separate_strings[1])
 
         if "PING" == server_utils.modified_message(msg_string):
             server_utils.ping(client_socket)
 
         elif separate_strings[0] == "GET":
             server_utils.get_sequence(client_socket, int(separate_strings[1]), gene_list)
+
+        elif separate_strings[0] == "INFO":
+            server_utils.info(client_socket, separate_strings[1])
         client_socket.close()
+
