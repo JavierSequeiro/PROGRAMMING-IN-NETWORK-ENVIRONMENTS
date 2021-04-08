@@ -46,3 +46,11 @@ def complementary(client_socket, sequence):
     complementary_seq = useful_seq.complement()
     print(complementary_seq)
     client_socket.send(complementary_seq.encode())
+
+def reverse(client_socket, sequence):
+    print(Fore.GREEN + "REV")
+
+    useful_seq = Seq(sequence)
+    reverse_seq = useful_seq.reverse()
+    print(reverse_seq)
+    client_socket.send(reverse_seq.encode())
