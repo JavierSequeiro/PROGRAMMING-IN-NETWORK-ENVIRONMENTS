@@ -24,18 +24,18 @@ def info(client_socket, sequence):
     useful_seq = Seq(sequence)
     A, C, T, G = useful_seq.count_base()
 
-    seq_info = f"Sequence: {sequence}"
+    seq_info = f"Sequence: {sequence}\n"
     print(seq_info)
     client_socket.send(seq_info.encode())
 
-    seq_len = f"Total length: {len(sequence)}"
+    seq_len = f"Total length: {len(sequence)}\n"
     print(seq_len)
     client_socket.send(seq_len.encode())
 
     nucleotides_list = [A, C, T, G]
     nucleotides_names = ["A", "C", "T", "G"]
     for i in range(0, 4):
-        nuc_info = f"{nucleotides_names[i]}: {nucleotides_list[i]} ({(nucleotides_list[i] * 100) / len(sequence)}%)"
+        nuc_info = f"{nucleotides_names[i]}: {nucleotides_list[i]} ({(nucleotides_list[i] * 100) / len(sequence)}%)\n"
         print(nuc_info)
         client_socket.send(nuc_info.encode())
 
