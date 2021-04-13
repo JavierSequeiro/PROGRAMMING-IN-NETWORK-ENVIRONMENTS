@@ -34,7 +34,7 @@ def info(client_socket, sequence):
 
     nucleotides_list = [A, C, T, G]
     nucleotides_names = ["A", "C", "T", "G"]
-    for i in range(0, 4):
+    for i in range(0, 5):
         nuc_info = f"{nucleotides_names[i]}: {nucleotides_list[i]} ({(nucleotides_list[i] * 100) / len(sequence)}%)\n"
         print(nuc_info)
         client_socket.send(nuc_info.encode())

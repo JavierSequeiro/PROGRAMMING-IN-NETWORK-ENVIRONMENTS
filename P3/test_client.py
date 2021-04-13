@@ -22,8 +22,8 @@ for i in range(0, 5):
     print(f"GET {i}: {sequence}")
 
 #INFO TESTING
-#print("* Testing INFO...")
-#print(client.talk(f"INFO {seq_list[0]}"))
+print("* Testing INFO...")
+print(client.talk(f"INFO {seq_list[0]}"))
 
 #COMP TESTING
 print("* Testing COMP...")
