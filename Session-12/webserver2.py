@@ -4,6 +4,7 @@ import termcolor
 
 # -- Server network parameters
 IP = "127.0.0.1"
+#IP = "192.168.1.39"
 PORT = 8080
 
 
@@ -36,11 +37,12 @@ def process_client(s):
     <html lang="en" dir="ltr">
       <head>
         <meta charset="utf-8">
-        <title>Green server</title>
+        <title>Green Server</title>
       </head>
       <body style="background-color: lightgreen;">
         <h1>GREEN SERVER</h1>
         <p>I am the Green Server! :-)</p>
+        <p><p>I love you to the moon and back <3</p>
       </body>
     </html>
     """
