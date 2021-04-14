@@ -38,7 +38,7 @@ def process_client(s):
 
     # This new contents are written in HTML language
     if path_name[1] == "/info/A":
-        body = read_file(f"{FOLDERx }A.html")
+        body = read_file(f"{FOLDER}A.html")
     else:
         body = """
         """
