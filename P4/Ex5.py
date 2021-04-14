@@ -37,9 +37,20 @@ def process_client(s):
     # Body (content to send)
 
     # This new contents are written in HTML language
-    if "/info/" in path_name[1]:
-        letter = path_name[1].split("/")[-1]
-        body = read_file(f"{FOLDER}{letter}.html")
+   # if "/info/" in path_name[1]:
+        #letter = path_name[1].split("/")[-1]
+       # body = read_file(f"{FOLDER}{letter}.html")
+    if path_name[1] == "/info/A":
+        body = read_file(f"{FOLDER}A.html")
+
+    elif path_name[1] == "/info/C":
+        body = read_file(f"{FOLDER}C.html")
+
+    elif path_name[1] == "/info/T":
+        body = read_file(f"{FOLDER}T.html")
+
+    elif path_name[1] == "/info/G":
+        body = read_file(f"{FOLDER}G.html")
 
     else:
         body = read_file(f"{FOLDER}Error.html")
