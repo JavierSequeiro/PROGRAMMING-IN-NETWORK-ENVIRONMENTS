@@ -28,12 +28,12 @@ print(client.talk(f"INFO {seq_list[0]}"))
 #COMP TESTING
 print("* Testing COMP...")
 print(f"COMP {seq_list[0]}")
-print(client.talk(f"COMP {seq_list[0]}\n"))
+print(client.talk(f"COMP {seq_list[0]}"))
 
 #REV TESTING
 print("Testing REV...")
 print(f"REV {seq_list[0]}")
-print(client.talk(f"REV {seq_list[0]}\n"))
+print(client.talk(f"REV {seq_list[0]}"))
 
 #GENE TESTING
 gene_list = ["U5", "ADA", "FRAT1", "FXN", "RNU6_269P"]
