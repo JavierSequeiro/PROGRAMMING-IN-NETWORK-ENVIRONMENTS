@@ -1,12 +1,9 @@
 import socket
 import colorama
-#from colorama import Fore
-#from Seq1 import Seq
 import server_utils
 
 PORT = 8080
 IP = "127.0.0.1"
-#seq_list = ["ACTTTGGATGATCAT", "CGAAATTGCTAGCA", "TAAAACGCCTGATGC", "GGTACGGAATCGAT", "ATCCCCCCGAAT"]
 seq_list = ["ACCTCCTCTCCAGCAATGCCAACCCCAGTCCAGGCCCCCATCCGCCCAGGATCTCGATCA", "AAAAACATTAATCTGTGGCCTTTCTTTGCCATTTCCAACTCTGCCACCTCCATCGAACGA", "CAAGGTCCCCTTCTTCCTTTCCATTCCCGTCAGCTTCATTTCCCTAATCTCCGTACAAAT", "CCCTAGCCTGACTCCCTTTCCTTTCCATCCTCACCAGACGCCCGCATGCCGGACCTCAAA", "AGCGCAAACGCTAAAAACCGGTTGAGTTGACGCACGGAGAGAAGGGGTGTGTGGGTGGGT"]
 
 colorama.init(autoreset=True)
@@ -28,8 +25,6 @@ while True:
         msg_string = msg_bytes.decode()
         useful_string = server_utils.modified_message(msg_string)
         separate_strings = useful_string.split(" ")
-        #print(separate_strings[0] == 'INFO')
-        #print(separate_strings[1])
 
         if "PING" == server_utils.modified_message(msg_string):
             server_utils.ping(client_socket)
