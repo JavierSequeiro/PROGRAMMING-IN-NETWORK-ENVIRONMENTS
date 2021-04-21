@@ -17,7 +17,7 @@ PORT = 8080
 BASES_INFORMATION = {"A":{"link": "https://en.wikipedia.org/wiki/Adenine",
                           "formula": "C5H5N5",
                         "name":"ADENINE",
-                          "colour":"green"},
+                          "colour":"lightgreen"},
                      "C": {"link": "https://en.wikipedia.org/wiki/Cytosine",
                            "formula": "C4H5N3O",
                            "name": "CYTOSINE",
