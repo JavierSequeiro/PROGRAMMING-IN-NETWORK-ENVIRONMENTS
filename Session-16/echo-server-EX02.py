@@ -28,14 +28,11 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
         if self.path == "/":
             contents = Path('form-EX02.html').read_text()
         elif self.path.startswith("/echo"):
-            #message = self.path.split("=")[-1]
-            #print(message)
+
             message = parse_qs(urlparse(self.path).query)["msg"][0]
-            #check = parse_qs(urlparse(self.path).query)["caplet"][0]
             if not "caplet" in self.path:
                 contents = Path("template.html").read_text().format(message)
             else:
-                #contents = Path("template.html").read_text().format(message)
                 contents = Path("template.html").read_text().format(message.upper())
         else:
             contents = Path("Error.html").read_text()
