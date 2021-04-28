@@ -26,25 +26,25 @@ def read_template_html_file(filename):
     return contents
 
 
-def info(client_socket, sequence):
-    print(Fore.GREEN + "INFO")
-    complete_nuc_info = ""
+def info(sequence):
     useful_seq = Seq(sequence)
-    A, C, T, G = useful_seq.count_base()
-
-    seq_info = f"Sequence: {sequence}\n"
-    complete_nuc_info += seq_info
-
+    complete_nuc_info = ""
     seq_len = f"Total length: {len(sequence)}\n"
     complete_nuc_info += seq_len
+
+    A, C, T, G = useful_seq.count_base()
+    context = {
+        "operation": "INFO"
+    }
 
     nucleotides_list = [A, C, T, G]
     nucleotides_names = ["A", "C", "T", "G"]
     for i in range(0, 4):
         nuc_info = f"{nucleotides_names[i]}: {nucleotides_list[i]} ({(nucleotides_list[i] * 100) / len(sequence)}%)\n"
         complete_nuc_info += nuc_info
-    print(complete_nuc_info)
-    client_socket.send(complete_nuc_info.encode())
+    context["sequence"] = complete_nuc_info
+    contents = read_template_html_file("./HTML_FILES/operation.html").render(context=context)
+    return contents
 
 def complementary(client_socket, sequence):
     print(Fore.GREEN + "COMP")
@@ -54,7 +54,7 @@ def complementary(client_socket, sequence):
     print(complementary_seq)
     client_socket.send(complementary_seq.encode())
 
-def reverse(client_socket, sequence):
+def reverse(sequence):
     print(Fore.GREEN + "REV")
 
     useful_seq = Seq(sequence)
