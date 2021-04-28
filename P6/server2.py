@@ -73,12 +73,22 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
             contents = read_template_html_file("./HTML_FILES/index.html").render(context=context)
         elif path_name == "/PING":
             contents = read_template_html_file("./HTML_FILES/ping.html").render()
+
         elif path_name == "/GET":
             number_sequence = arguments["sequence"][0]
             contents = su.get_sequence(number_sequence, seq_list)
+
         elif path_name == "/GENE":
             gene = arguments["gene"][0]
             contents = su.gene(gene)
+
+        elif path_name == "/OPERATION":
+            sequence = arguments["sequence"][0]
+            operation = arguments["operation"][0]
+            if operation == "Info":
+                contents = su.info(sequence)
+
+
         else:
             contents = read_template_html_file("./HTML_FILES/Error.html").render()
 
