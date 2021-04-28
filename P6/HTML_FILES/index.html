@@ -2,14 +2,14 @@
     <html lang="en" dir="ltr">
       <head>
         <meta charset="utf-8">
-        <title>Bases</title>
+        <title>PRACTICE 6</title>
       </head>
       <body style="background-color: white;">
         <h1>SEQ2 SERVER</h1>
         <h2>Access to the Server</h2>
         <form action="PING" method="get">
           Is the server alive? <input type="submit" value="PING">
-          <br>
+          <p>--------------------------------------------------------------</p>
         </form>
         <form action="GET" method="get">
           Get a sequence. Select sequence number
@@ -20,6 +20,7 @@
 
           </select>
           <input type="submit" value="GET">
+          <p>----------------------------------------------------------------</p>
         </form>
         <form action="GENE" method="get">
           Get a gene. Select a name:
@@ -29,6 +30,17 @@
             {% endfor %}
           </select>
           <input type="submit" value="GENE">
+          <p>-----------------------------------------------------------------</p>
+        </form>
+        <form action="OPERATION" method="get">
+          Write a sequence:
+          <input type="text" name="sequence"> <br>
+          Select operation
+          <input type="radio" name="operation" value="Info">Info
+          <input type="radio" name="operation" value="Comp">Comp
+          <input type="radio" name="operation" value="Rev">Rev <br>
+          Perform operation:
+          <input type="submit" value="OPERATE!">
         </form>
       </body>
     </html>
