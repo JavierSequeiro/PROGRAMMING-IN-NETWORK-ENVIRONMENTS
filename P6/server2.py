@@ -83,10 +83,17 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
             contents = su.gene(gene)
 
         elif path_name == "/OPERATION":
-            sequence = arguments["sequence"][0]
-            operation = arguments["operation"][0]
-            if operation == "Info":
-                contents = su.info(sequence)
+            try:
+                sequence = arguments["sequence"][0]
+                operation = arguments["operation"][0]
+                if operation == "Info":
+                    contents = su.info(sequence)
+                elif operation == "Comp":
+                    contents = su.complementary(sequence)
+                else:
+                    contents = su.reverse(sequence)
+            except KeyError:
+                contents = read_html_file("./HTML_FILES/Error.html")
 
 
         else:
