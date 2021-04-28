@@ -19,23 +19,6 @@ PORT = 8080
 seq_list = ["ACCTCCTCTCCAGCAATGCCAACCCCAGTCCAGGCCCCCATCCGCCCAGGATCTCGATCA", "AAAAACATTAATCTGTGGCCTTTCTTTGCCATTTCCAACTCTGCCACCTCCATCGAACGA", "CAAGGTCCCCTTCTTCCTTTCCATTCCCGTCAGCTTCATTTCCCTAATCTCCGTACAAAT", "CCCTAGCCTGACTCCCTTTCCTTTCCATCCTCACCAGACGCCCGCATGCCGGACCTCAAA", "AGCGCAAACGCTAAAAACCGGTTGAGTTGACGCACGGAGAGAAGGGGTGTGTGGGTGGGT"]
 
 gene_list = ["ADA", "FRAT1", "FXN", "RNU6_269P", "U5"]
-BASES_INFORMATION = {"A":{"link": "https://en.wikipedia.org/wiki/Adenine",
-                          "formula": "C5H5N5",
-                        "name":"ADENINE",
-                          "colour":"lightgreen"},
-                     "C": {"link": "https://en.wikipedia.org/wiki/Cytosine",
-                           "formula": "C4H5N3O",
-                           "name": "CYTOSINE",
-                           "colour": "yellow"},
-                     "T": {"link": "https://en.wikipedia.org/wiki/Thymine",
-                           "formula": "C5H6N2O2",
-                           "name": "THYMINE",
-                           "colour": "pink"},
-                     "G": {"link": "https://en.wikipedia.org/wiki/Guanine",
-                           "formula": "C5H5N5O",
-                           "name": "GUANINE",
-                           "colour": "lightskyblue"}
-                     }
 
 # -- This is for preventing the error: "Port already in use"
 socketserver.TCPServer.allow_reuse_address = True
@@ -64,9 +47,6 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
         print(f"Parameters: {arguments}")
         # Message to send back to the client
         context = {}
-        seq_dict = {}
-        for n in range(0, len(seq_list)):
-            seq_dict[n] = seq_list[n]
         if path_name == "/":
             context["n_sequences"] = len(seq_list)
             context["gene_list"] = gene_list
@@ -94,7 +74,6 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                     contents = su.reverse(sequence)
             except KeyError:
                 contents = read_html_file("./HTML_FILES/Error.html")
-
 
         else:
             contents = read_template_html_file("./HTML_FILES/Error.html").render()
