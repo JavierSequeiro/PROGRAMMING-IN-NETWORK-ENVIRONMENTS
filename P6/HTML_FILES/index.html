@@ -9,6 +9,26 @@
         <h2>Access to the Server</h2>
         <form action="PING" method="get">
           Is the server alive? <input type="submit" value="PING">
+          <br>
+        </form>
+        <form action="GET" method="get">
+          Get a sequence. Select sequence number
+          <select name="sequence">
+            {% for n in range(0,context.n_sequences)%}
+              <option value="{{n}}">{{n}}</option>
+            {% endfor %}
+
+          </select>
+          <input type="submit" value="GET">
+        </form>
+        <form action="GENE" method="get">
+          Get a gene. Select a name:
+          <select name="gene">
+            {% for n in context.gene_list %}
+              <option value="{{n}}">{{n}}</option>
+            {% endfor %}
+          </select>
+          <input type="submit" value="GENE">
         </form>
       </body>
     </html>
