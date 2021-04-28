@@ -4,6 +4,7 @@ import termcolor
 from pathlib import Path
 import jinja2
 from urllib.parse import urlparse, parse_qs
+import server_utils as su
 
 def read_html_file(filename):
     contents = Path(filename).read_text()
@@ -15,6 +16,9 @@ def read_template_html_file(filename):
 # Define the Server's port
 PORT = 8080
 
+seq_list = ["ACCTCCTCTCCAGCAATGCCAACCCCAGTCCAGGCCCCCATCCGCCCAGGATCTCGATCA", "AAAAACATTAATCTGTGGCCTTTCTTTGCCATTTCCAACTCTGCCACCTCCATCGAACGA", "CAAGGTCCCCTTCTTCCTTTCCATTCCCGTCAGCTTCATTTCCCTAATCTCCGTACAAAT", "CCCTAGCCTGACTCCCTTTCCTTTCCATCCTCACCAGACGCCCGCATGCCGGACCTCAAA", "AGCGCAAACGCTAAAAACCGGTTGAGTTGACGCACGGAGAGAAGGGGTGTGTGGGTGGGT"]
+
+gene_list = ["ADA", "FRAT1", "FXN", "RNU6_269P", "U5"]
 BASES_INFORMATION = {"A":{"link": "https://en.wikipedia.org/wiki/Adenine",
                           "formula": "C5H5N5",
                         "name":"ADENINE",
@@ -59,10 +63,22 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
         print(f"Resources requested: {path_name}")
         print(f"Parameters: {arguments}")
         # Message to send back to the client
+        context = {}
+        seq_dict = {}
+        for n in range(0, len(seq_list)):
+            seq_dict[n] = seq_list[n]
         if path_name == "/":
-            contents = read_template_html_file("./HTML_FILES/index.html").render()
+            context["n_sequences"] = len(seq_list)
+            context["gene_list"] = gene_list
+            contents = read_template_html_file("./HTML_FILES/index.html").render(context=context)
         elif path_name == "/PING":
             contents = read_template_html_file("./HTML_FILES/ping.html").render()
+        elif path_name == "/GET":
+            number_sequence = arguments["sequence"][0]
+            contents = su.get_sequence(number_sequence, seq_list)
+        elif path_name == "/GENE":
+            gene = arguments["gene"][0]
+            contents = su.gene(gene)
         else:
             contents = read_template_html_file("./HTML_FILES/Error.html").render()
 
