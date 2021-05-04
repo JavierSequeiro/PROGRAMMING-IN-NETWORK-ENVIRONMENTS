@@ -57,3 +57,4 @@ for n in range(0, limit):
         print(num['type'])
         termcolor.cprint("    Number: ", 'red', end='')
         print(num['number'])
+
