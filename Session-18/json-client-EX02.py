@@ -30,7 +30,7 @@ data1 = r1.read().decode("utf-8")
 # -- Create a variable with the data,
 # -- form the JSON received
 person = json.loads(data1)
-limit  = len(person["Firstname"])
+limit = len(person["Firstname"])
 print("CONTENT: ")
 for n in range(0, limit):
     # Print the information in the object
