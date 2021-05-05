@@ -12,8 +12,8 @@ gene_dict = {
     "KDR": "ENSG00000128052",
     "ANK2": "ENSG00000145362"
 }
-SERVER = "resembl.org"
-ENDPOINT = "/sequence/id"
+SERVER = "rest.ensembl.org"
+ENDPOINT = "/sequence/id/"
 ID = gene_dict["MIR633"]
 PARAMETERS = "?content-type=application/json"
 print(f"SERVER: {SERVER}")
@@ -22,9 +22,14 @@ print(f"URL {SERVER + ENDPOINT + PARAMETERS}")
 connection = http.client.HTTPConnection(SERVER)
 connection.request("GET", ENDPOINT + ID + PARAMETERS)
 response = connection.getresponse()
-response = json.loads(response.read().decode())
-#dict_response = json.loads(response)
-#print(json.dumps(response, indent=4, sort_keys=True))
-print(f"Gene: {ID}")
-print("Description:", response["desc"])
-print("Bases: ", response["seq"])
+print(f"Response received: {response.status} {response.reason}")
+if response.status == 200:
+    response = json.loads(response.read().decode())
+    #dict_response = json.loads(response)
+    #print(json.dumps(response, indent=4, sort_keys=True))
+    print(f"Gene: {ID}")
+    print("Description:", response["desc"])
+    print("Bases: ", response["seq"])
+
+elif response.status == 404:
+    print("Check that the endpoint is correctly written")
