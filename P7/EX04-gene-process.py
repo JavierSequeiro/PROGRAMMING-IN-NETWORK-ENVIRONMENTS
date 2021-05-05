@@ -17,8 +17,6 @@ gene_dict = {
 SERVER = "rest.ensembl.org"
 ENDPOINT = "/sequence/id/"
 PARAMETERS = "?content-type=application/json"
-print(f"SERVER: {SERVER}")
-print(f"URL {SERVER + ENDPOINT + PARAMETERS}")
 
 connection = http.client.HTTPConnection(SERVER)
 
@@ -27,13 +25,16 @@ try:
     id = gene_dict[user_gene]
     connection.request("GET", ENDPOINT + id + PARAMETERS)
     response = connection.getresponse()
+    print(f"SERVER: {SERVER}")
+    print(f"URL: {SERVER + ENDPOINT + PARAMETERS}")
+    print(f"Response received!: {response.status} {response.reason} \n")
     if response.status == 200:
         response = json.loads(response.read().decode())
-        print(f"Gene: {id}")
+        print(f"Gene: {user_gene}")
         print("Description:", response["desc"])
         sequence = Seq(response["seq"])
-        print(f"Total length: {sequence.len()}")
         print(sequence.info())
+        print(f"Most frequent base: {sequence.most_frequent_base()}")
 
 except KeyError:
     print("The gene is not inside the data base. Choose between the following:", list(gene_dict.keys()))
