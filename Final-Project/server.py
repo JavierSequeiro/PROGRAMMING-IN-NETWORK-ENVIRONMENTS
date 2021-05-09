@@ -53,6 +53,7 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
         context = {}
         if path_name == "/":
             contents = read_template_html_file("./HTML_FILES/index.html").render()
+        # 1. GET N SPECIES OF VERTEBRATES
         elif path_name == "/listSpecies":
             endpoint = "/info/species"
             connection = http.client.HTTPConnection(SERVER)
@@ -65,11 +66,12 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                 if "limit" in arguments.keys():
                     context["limit"] = int(arguments["limit"][0])
                     count = 0
-                    while count < context["limit"]:
-                        for n in response["species"]:
-                            if n["division"] == "EnsemblVertebrates":
-                                vertebrates_list.append(n["common_name"])
-                                count += 1
+                    for n in response["species"]:
+                        if n["division"] == "EnsemblVertebrates":
+                            vertebrates_list.append(n["common_name"])
+                            count += 1
+                        if count == context["limit"]:
+                            break
                 else:
                     context["limit"] = len(response["species"])
                     for i in response["species"]:
@@ -77,6 +79,34 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                             vertebrates_list.append(i["common_name"])
                 context["species"] = vertebrates_list
                 contents = read_template_html_file("./HTML_FILES/listSpecies.html").render(context=context)
+
+        # 2. GET KARYOTYPE OF A SPECIE
+        elif path_name == "/karyotype":
+            endpoint = "/info/assembly/"
+            specie = arguments["specie"][0]
+            connection = http.client.HTTPConnection(SERVER)
+            connection.request("GET", endpoint + specie + PARAMETERS)
+            response = connection.getresponse()
+            if response.status == 200:
+                response = json.loads(response.read().decode())
+                context["karyotype"] = response["karyotype"]
+                contents = read_template_html_file("./HTML_FILES/karyotype.html").render(context=context)
+
+        #3. GET CHROMOSOME LENGTH
+        elif path_name == "/chromosomeLength":
+            endpoint = "/info/assembly/"
+            specie = arguments["specie"][0]
+            connection = http.client.HTTPConnection(SERVER)
+            connection.request("GET", endpoint + specie + PARAMETERS)
+            response = connection.getresponse()
+            if response.status == 200:
+                response = json.loads(response.read().decode())
+                for chromosome in response["top_level_region"]:
+                    if chromosome["coord_system"] == "chromosome":
+                        if chromosome["name"] == arguments["chromo"][0]:
+                            context["chromosome_length"] = chromosome["length"]
+                contents = read_template_html_file("./HTML_FILES/chromosome_length.html").render(context=context)
+
 
 
 
