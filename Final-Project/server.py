@@ -46,6 +46,7 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
         arguments = parse_qs(o.query)
         print(f"Resources requested: {path_name}")
         print(f"Parameters: {arguments}")
+        print(f"Keys: {arguments.keys()}")
         # Message to send back to the client
         SERVER = "rest.ensembl.org"
         PARAMETERS = "?content-type=application/json"
@@ -55,6 +56,27 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
         elif path_name == "/listSpecies":
             endpoint = "/info/species"
             connection = http.client.HTTPConnection(SERVER)
+            connection.request("GET", endpoint + PARAMETERS)
+            response = connection.getresponse()
+            vertebrates_list = []
+            if response.status == 200:
+                response = json.loads(response.read().decode())
+                context["number_species"] = len(response["species"])
+                if "limit" in arguments.keys():
+                    context["limit"] = int(arguments["limit"][0])
+                    count = 0
+                    while count < context["limit"]:
+                        for n in response["species"]:
+                            if n["division"] == "EnsemblVertebrates":
+                                vertebrates_list.append(n["common_name"])
+                                count += 1
+                else:
+                    context["limit"] = len(response["species"])
+                    for i in response["species"]:
+                        if i["division"] == "EnsemblVertebrates":
+                            vertebrates_list.append(i["common_name"])
+                context["species"] = vertebrates_list
+                contents = read_template_html_file("./HTML_FILES/listSpecies.html").render(context=context)
 
 
 
