@@ -60,6 +60,7 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
             connection.request("GET", endpoint + PARAMETERS)
             response = connection.getresponse()
             vertebrates_list = []
+
             if response.status == 200:
                 response = json.loads(response.read().decode())
                 context["number_species"] = len(response["species"])
@@ -77,8 +78,8 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                     for i in response["species"]:
                         if i["division"] == "EnsemblVertebrates":
                             vertebrates_list.append(i["common_name"])
-                context["species"] = vertebrates_list
-                contents = read_template_html_file("./HTML_FILES/listSpecies.html").render(context=context)
+            context["species"] = vertebrates_list
+            contents = read_template_html_file("./HTML_FILES/listSpecies.html").render(context=context)
 
         # 2. GET KARYOTYPE OF A SPECIE
         elif path_name == "/karyotype":
@@ -87,11 +88,13 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
             connection = http.client.HTTPConnection(SERVER)
             connection.request("GET", endpoint + specie + PARAMETERS)
             response = connection.getresponse()
-            if response.status == 200:
-                response = json.loads(response.read().decode())
+            try:
+                if response.status == 200:
+                    response = json.loads(response.read().decode())
                 context["karyotype"] = response["karyotype"]
                 contents = read_template_html_file("./HTML_FILES/karyotype.html").render(context=context)
-
+            except TypeError:
+                contents = read_template_html_file("./HTML_FILES/Error.html").render()
         #3. GET CHROMOSOME LENGTH
         elif path_name == "/chromosomeLength":
             endpoint = "/info/assembly/"
@@ -99,13 +102,18 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
             connection = http.client.HTTPConnection(SERVER)
             connection.request("GET", endpoint + specie + PARAMETERS)
             response = connection.getresponse()
-            if response.status == 200:
-                response = json.loads(response.read().decode())
-                for chromosome in response["top_level_region"]:
-                    if chromosome["coord_system"] == "chromosome":
-                        if chromosome["name"] == arguments["chromo"][0]:
-                            context["chromosome_length"] = chromosome["length"]
+            try:
+                if response.status == 200:
+                    response = json.loads(response.read().decode())
+                    for chromosome in response["top_level_region"]:
+                        if chromosome["coord_system"] == "chromosome":
+                            if chromosome["name"] == arguments["chromo"][0]:
+                                context["chromosome_length"] = chromosome["length"]
                 contents = read_template_html_file("./HTML_FILES/chromosome_length.html").render(context=context)
+            except TypeError:
+                contents = read_template_html_file("./HTML_FILES/Error.html").render()
+        else:
+            contents = read_template_html_file("./HTML_FILES/Error.html").render()
 
 
 
