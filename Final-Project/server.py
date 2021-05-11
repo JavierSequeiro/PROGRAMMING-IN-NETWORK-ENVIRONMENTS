@@ -114,11 +114,19 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
         else:
             contents = read_template_html_file("./HTML_FILES/Error.html").render()
 
+        #TO TEST EVERYTHING
+        file = Path("tryout.txt").open("a")
+        if path_name != "/favicon.ico":
+            file.write(contents)
+        else:
+            pass
+        file.close()
+
         # Generating the response message
         self.send_response(200)  # -- Status line: OK!
 
         # Define the content-type header:
-        self.send_header('Content-Type', 'text/plain')
+        self.send_header('Content-Type', 'text/html')
         self.send_header('Content-Length', len(contents.encode()))
 
         # The header is finished
