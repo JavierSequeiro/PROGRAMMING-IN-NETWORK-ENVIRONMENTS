@@ -102,15 +102,16 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
             connection = http.client.HTTPConnection(SERVER)
             connection.request("GET", endpoint + specie + PARAMETERS)
             response = connection.getresponse()
-            try:
-                if response.status == 200:
-                    response = json.loads(response.read().decode())
-                    for chromosome in response["top_level_region"]:
-                        if chromosome["coord_system"] == "chromosome":
-                            if chromosome["name"] == arguments["chromo"][0]:
-                                context["chromosome_length"] = chromosome["length"]
+            count = 0
+            if response.status == 200:
+                response = json.loads(response.read().decode())
+                for chromosome in response["top_level_region"]:
+                    if chromosome["coord_system"] == "chromosome" and chromosome["name"] == arguments["chromo"][0]:
+                        context["chromosome_length"] = chromosome["length"]
+                        count += 1
+            if count != 0:
                 contents = read_template_html_file("./HTML_FILES/chromosome_length.html").render(context=context)
-            except TypeError:
+            else:
                 contents = read_template_html_file("./HTML_FILES/Error.html").render()
         else:
             contents = read_template_html_file("./HTML_FILES/Error.html").render()
