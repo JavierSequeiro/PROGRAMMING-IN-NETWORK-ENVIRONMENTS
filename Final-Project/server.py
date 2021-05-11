@@ -7,10 +7,6 @@ from pathlib import Path
 import jinja2
 from urllib.parse import urlparse, parse_qs
 
-SERVER = "rest.ensembl.org"
-ENDPOINT = "/info/species"
-PARAMETERS = "?content-type=application/json"
-
 def read_html_file(filename):
     contents = Path(filename).read_text()
     return contents
@@ -53,6 +49,7 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
         context = {}
         if path_name == "/":
             contents = read_template_html_file("./HTML_FILES/index.html").render()
+
         # 1. GET N SPECIES OF VERTEBRATES
         elif path_name == "/listSpecies":
             endpoint = "/info/species"
@@ -95,6 +92,7 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                 contents = read_template_html_file("./HTML_FILES/karyotype.html").render(context=context)
             except TypeError:
                 contents = read_template_html_file("./HTML_FILES/Error.html").render()
+
         #3. GET CHROMOSOME LENGTH
         elif path_name == "/chromosomeLength":
             endpoint = "/info/assembly/"
@@ -116,14 +114,11 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
         else:
             contents = read_template_html_file("./HTML_FILES/Error.html").render()
 
-
-
-
         # Generating the response message
         self.send_response(200)  # -- Status line: OK!
 
         # Define the content-type header:
-        self.send_header('Content-Type', 'text/html')
+        self.send_header('Content-Type', 'text/plain')
         self.send_header('Content-Length', len(contents.encode()))
 
         # The header is finished
