@@ -97,14 +97,14 @@ class Seq:
         #seq_info = f"Sequence: {self.strbases}\n"
         #complete_nuc_info += seq_info
 
-        seq_len = f"Total length: {len(self.strbases)}\n"
-        complete_nuc_info += seq_len
+        #seq_len = f"Total length: {len(self.strbases)}\n"
+        #complete_nuc_info += seq_len
 
         nucleotides_list = [A, C, T, G]
         nucleotides_names = ["A", "C", "T", "G"]
         for i in range(0, 4):
             rounded_percentage = round((nucleotides_list[i] * 100) / len(self.strbases),2)
-            nuc_info = f"{nucleotides_names[i]}: {nucleotides_list[i]} ({rounded_percentage}%)\n"
+            nuc_info = f" {nucleotides_names[i]}: {nucleotides_list[i]} ({rounded_percentage}%)\n"
             complete_nuc_info += nuc_info
         return complete_nuc_info
 
