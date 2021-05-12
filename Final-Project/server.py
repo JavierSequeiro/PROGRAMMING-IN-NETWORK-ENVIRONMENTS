@@ -187,8 +187,17 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
 
         #TO TEST EVERYTHING
         file = Path("tryout.txt").open("a")
-        if path_name != "/favicon.ico" or path_name != "/":
+        if path_name != "/favicon.ico":
+            my_endpoint = path_name.strip("/")
+            file.write(f"----> {my_endpoint} endpoint \n")
+            #CHANGE NUMBER OF TEST MANUALLY
+            file.write("TEST 1 \n\n")
+            file.write(f"* Input: http://127.0.0.1:8080{self.path} \n"
+                       f"\n"
+                       f"* Output: \n\n")
             file.write(contents)
+            file.write("\n\n"
+                       "==================\n")
         else:
             pass
         file.close()
