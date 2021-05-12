@@ -17,6 +17,19 @@ def read_template_html_file(filename):
 # Define the Server's port
 PORT = 8080
 
+gene_dict = {
+    "FRAT1": "ENSG00000165879",
+    "ADA": "ENSG00000196839",
+    "FXN": "ENSG00000165060",
+    "RNU6_269P": "ENSG00000212379",
+    "MIR633": "ENSG00000207552",
+    "TTTY4C": "ENSG00000228296",
+    "RBMY2YP": "ENSG00000227633",
+    "FGFR3": "ENSG00000068078",
+    "KDR": "ENSG00000128052",
+    "ANK2": "ENSG00000145362"
+}
+
 # -- This is for preventing the error: "Port already in use"
 socketserver.TCPServer.allow_reuse_address = True
 
@@ -42,7 +55,7 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
         arguments = parse_qs(o.query)
         print(f"Resources requested: {path_name}")
         print(f"Parameters: {arguments}")
-        print(f"Keys: {arguments.keys()}")
+        #print(f"Keys: {arguments.keys()}")
         # Message to send back to the client
         SERVER = "rest.ensembl.org"
         PARAMETERS = "?content-type=application/json"
@@ -82,6 +95,7 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
         elif path_name == "/karyotype":
             endpoint = "/info/assembly/"
             specie = arguments["specie"][0]
+            specie = specie.replace(" ", "_")
             connection = http.client.HTTPConnection(SERVER)
             connection.request("GET", endpoint + specie + PARAMETERS)
             response = connection.getresponse()
@@ -111,6 +125,23 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                 contents = read_template_html_file("./HTML_FILES/chromosome_length.html").render(context=context)
             else:
                 contents = read_template_html_file("./HTML_FILES/Error.html").render()
+        elif path_name == "/geneSeq":
+            endpoint = "/sequence/id/"
+            try:
+                gene = arguments["gene"][0]
+                id = gene_dict[gene]
+                connection = http.client.HTTPConnection(SERVER)
+                connection.request("GET", endpoint + id + PARAMETERS)
+                response = connection.getresponse()
+                if response.status == 200:
+                    response  = json.loads(response.read().decode())
+                    context["sequence"] = response["seq"]
+                    context["gene_name"] = gene
+                contents = read_template_html_file("./HTML_FILES/gene_sequence.html").render(context=context)
+            except KeyError:
+                contents = read_template_html_file("./HTML_FILES/Error.html").render()
+
+
         else:
             contents = read_template_html_file("./HTML_FILES/Error.html").render()
 
