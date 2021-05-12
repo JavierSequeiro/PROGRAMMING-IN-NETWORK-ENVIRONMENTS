@@ -6,6 +6,7 @@ import termcolor
 from pathlib import Path
 import jinja2
 from urllib.parse import urlparse, parse_qs
+from Seq1 import Seq
 
 def read_html_file(filename):
     contents = Path(filename).read_text()
@@ -141,6 +142,45 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
             except KeyError:
                 contents = read_template_html_file("./HTML_FILES/Error.html").render()
 
+        elif path_name == "/geneInfo":
+            endpoint = "/sequence/id/"
+            try:
+                gene = arguments["gene"][0]
+                id = gene_dict[gene]
+                connection = http.client.HTTPConnection(SERVER)
+                connection.request("GET", endpoint + id + PARAMETERS)
+                response = connection.getresponse()
+                if response.status == 200:
+                    response = json.loads(response.read().decode())
+                    gene_info = response["desc"]
+                    gene_info_data = gene_info.split(":")
+                    context["gene_name"] = gene
+                    context["start"] = gene_info_data[3]
+                    context["end"] = gene_info_data[4]
+                    context["length"] = int(context["end"]) - int(context["start"])
+                    context["id"] = id
+                    context["chromosome_name"] = gene_info_data[2]
+                contents = read_template_html_file("./HTML_FILES/gene_info.html").render(context=context)
+            except KeyError:
+                contents = read_template_html_file("./HTML_FILES/Error.html").render()
+
+        elif path_name == "/geneCalc":
+            endpoint = "/sequence/id/"
+            try:
+                gene = arguments["gene"][0]
+                id = gene_dict[gene]
+                connection = http.client.HTTPConnection(SERVER)
+                connection.request("GET", endpoint + id + PARAMETERS)
+                response = connection.getresponse()
+                if response.status == 200:
+                    response = json.loads(response.read().decode())
+                    sequence = Seq(response["seq"])
+                    context["gene_name"] = gene
+                    context["length"] = sequence.len()
+                    context["percentages"] = sequence.info()
+                contents = read_template_html_file("./HTML_FILES/gene_calc.html").render(context=context)
+            except KeyError:
+                contents = read_template_html_file("./HTML_FILES/Error.html").render()
 
         else:
             contents = read_template_html_file("./HTML_FILES/Error.html").render()
