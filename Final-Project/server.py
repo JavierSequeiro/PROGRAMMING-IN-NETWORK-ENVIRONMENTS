@@ -187,7 +187,7 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
 
         #TO TEST EVERYTHING
         file = Path("tryout.txt").open("a")
-        if path_name != "/favicon.ico":
+        if path_name != "/favicon.ico" or path_name != "/":
             file.write(contents)
         else:
             pass
