@@ -186,12 +186,13 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
             contents = read_template_html_file("./HTML_FILES/Error.html").render()
 
         #TO TEST EVERYTHING
+        test = 1
         file = Path("tryout.txt").open("a")
-        if path_name != "/favicon.ico":
+        if path_name != "/favicon.ico" and path_name != "/":
             my_endpoint = path_name.strip("/")
             file.write(f"----> {my_endpoint} endpoint \n")
             #CHANGE NUMBER OF TEST MANUALLY
-            file.write("TEST 1 \n\n")
+            file.write(f"TEST {test} \n\n")
             file.write(f"* Input: http://127.0.0.1:8080{self.path} \n"
                        f"\n"
                        f"* Output: \n\n")
