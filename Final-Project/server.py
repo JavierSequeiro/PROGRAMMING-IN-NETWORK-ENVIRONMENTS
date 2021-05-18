@@ -205,10 +205,13 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
 
         # Generating the response message
         self.send_response(200)  # -- Status line: OK!
-
+        if "json" in arguments.keys():
+            self.send_header('Content-Type', 'application/json')
+            self.send_header('Content-Length', len(response.encode()))
+        else:
         # Define the content-type header:
-        self.send_header('Content-Type', 'text/html')
-        self.send_header('Content-Length', len(contents.encode()))
+            self.send_header('Content-Type', 'text/html')
+            self.send_header('Content-Length', len(contents.encode()))
 
         # The header is finished
         self.end_headers()
