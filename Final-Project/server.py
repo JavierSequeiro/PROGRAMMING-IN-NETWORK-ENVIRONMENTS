@@ -135,7 +135,7 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                 connection.request("GET", endpoint + id + PARAMETERS)
                 response = connection.getresponse()
                 if response.status == 200:
-                    response  = json.loads(response.read().decode())
+                    response = json.loads(response.read().decode())
                     context["sequence"] = response["seq"]
                     context["gene_name"] = gene
                 contents = read_template_html_file("./HTML_FILES/gene_sequence.html").render(context=context)
