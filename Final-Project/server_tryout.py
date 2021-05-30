@@ -149,7 +149,8 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                     if count != 0:
                         contents = str(json_chromosome)
                     else:
-                        contents = "ERROR, MUST CHECK THE NAME OR SPECIES INPUT"
+                        context["chromosome"] = "ERROR, MUST CHECK THE NAME OF THE CHROMOSOME"
+                        contents = str(context)
 
                 #HTML APPLICATION
                 else:
@@ -162,6 +163,14 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                         contents = read_template_html_file("./HTML_FILES/chromosome_length.html").render(context=context)
                     else:
                         contents = read_template_html_file("./HTML_FILES/Error.html").render()
+            else:
+                if "json" in arguments.keys():
+                    content_type = "application/json"
+                    context["species"] = "ERROR, MUST CHECK THE NAME OF THE SPECIES"
+                    contents = str(context)
+                else:
+                    content_type = "text/html"
+                    contents = read_template_html_file("./HTML_FILES/Error.html").render()
 
         #4 GET HUMAN GENETIC SEQUENCE
         elif path_name == "/geneSeq":
@@ -263,21 +272,14 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
 
         #TO TEST EVERYTHING
         if not "json" in arguments.keys():
-            test = 1
-            if path_name == "/listSpecies" or path_name == "/karyotype" or path_name == "/chromosomeLength":
-                file = Path("report-basic.txt").open("a")
-            elif path_name == "/geneSeq" or path_name == "/geneInfo" or path_name == "/geneCalc":
-                file = Path("report-basic.txt").open("a")
+            #CHANGE MANUALLY THE FILE NAME TO TEST BASIC, MEDIUM, ADVANCE
+            file = Path("report-basic.txt").open("a")
             my_endpoint = path_name.strip("/")
-            file_read = Path("tryout.txt").open("r")
-            if my_endpoint in file_read:
-                times = file_read.count(my_endpoint)
-                test += times
             if path_name != "/favicon.ico" and path_name != "/":
                 #my_endpoint = path_name.strip("/")
                 file.write(f"----> {my_endpoint} endpoint \n")
                 # CHANGE NUMBER OF TEST MANUALLY
-                file.write(f"TEST {test} \n\n")
+                file.write(f"TEST \n\n")
                 file.write(f"* Input: http://127.0.0.1:8080{self.path} \n"
                            f"\n"
                            f"* Output: \n\n")
@@ -286,7 +288,6 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                            "==================\n")
             else:
                 pass
-            file_read.close()
             file.close()
         # Generating the response message
         self.send_response(200)  # -- Status line: OK!
