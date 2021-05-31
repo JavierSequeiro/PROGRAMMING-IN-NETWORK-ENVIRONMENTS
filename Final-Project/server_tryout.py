@@ -185,18 +185,21 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                     response = json.loads(response.read().decode())
                     context["gene_name"] = gene
                     context["sequence"] = response["seq"]
-
+                    #JSON
                     if "json" in arguments.keys():
                         content_type = "application/json"
                         contents = str(context)
+                    #HTML
                     else:
                         content_type = "text/html"
                         contents = read_template_html_file("./HTML_FILES/gene_sequence.html").render(context=context)
             except KeyError:
+                #JSON
                 if "json" in arguments.keys():
                     content_type = "application/json"
                     context["sequence"] = "ERROR, MUST ENTER A HUMAN GENE"
                     contents = str(context)
+                #HTML
                 else:
                     content_type = "text/html"
                     contents = read_template_html_file("./HTML_FILES/Error.html").render()
@@ -220,9 +223,11 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                     context["length"] = int(context["end"]) - int(context["start"])
                     context["id"] = id
                     context["chromosome_name"] = gene_info_data[2]
+                    #JSON
                     if "json" in arguments.keys():
                         content_type = "application/json"
                         contents = str(context)
+                    #HTML
                     else:
                         content_type = "text/html"
                         contents = read_template_html_file("./HTML_FILES/gene_info.html").render(context=context)
@@ -273,7 +278,7 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
         #TO TEST EVERYTHING
         if not "json" in arguments.keys():
             #CHANGE MANUALLY THE FILE NAME TO TEST BASIC, MEDIUM, ADVANCE
-            file = Path("report-basic.txt").open("a")
+            file = Path("report-medium.txt").open("a")
             my_endpoint = path_name.strip("/")
             if path_name != "/favicon.ico" and path_name != "/":
                 #my_endpoint = path_name.strip("/")
