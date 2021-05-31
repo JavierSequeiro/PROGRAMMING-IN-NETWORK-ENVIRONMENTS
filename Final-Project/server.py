@@ -15,6 +15,7 @@ def read_html_file(filename):
 def read_template_html_file(filename):
     contents = jinja2.Template(Path(filename).read_text())
     return contents
+
 # Define the Server's port
 PORT = 8080
 
@@ -62,6 +63,7 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
         PARAMETERS = "?content-type=application/json"
         context = {}
         if path_name == "/":
+            content_type = "text/html"
             contents = read_template_html_file("./HTML_FILES/index.html").render()
 
         # 1. GET N SPECIES OF VERTEBRATES
@@ -73,6 +75,7 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
             vertebrates_list = []
 
             if response.status == 200:
+                content_type = "text/html"
                 response = json.loads(response.read().decode())
                 context["number_species"] = len(response["species"])
                 if "limit" in arguments.keys():
@@ -90,7 +93,13 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                         if i["division"] == "EnsemblVertebrates":
                             vertebrates_list.append(i["common_name"])
             context["species"] = vertebrates_list
-            contents = read_template_html_file("./HTML_FILES/listSpecies.html").render(context=context)
+            #JSON
+            if "json" in arguments.keys():
+                content_type = "application/json"
+                contents = str(context)
+            #HTML
+            else:
+                contents = read_template_html_file("./HTML_FILES/listSpecies.html").render(context=context)
 
         # 2. GET KARYOTYPE OF A SPECIE
         elif path_name == "/karyotype":
@@ -102,11 +111,24 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
             response = connection.getresponse()
             try:
                 if response.status == 200:
+                    content_type = "text/html"
                     response = json.loads(response.read().decode())
                 context["karyotype"] = response["karyotype"]
-                contents = read_template_html_file("./HTML_FILES/karyotype.html").render(context=context)
+                #JSON
+                if "json" in arguments.keys():
+                    content_type = "application/json"
+                    contents = str(context)
+                #HTML
+                else:
+                    contents = read_template_html_file("./HTML_FILES/karyotype.html").render(context=context)
             except TypeError:
-                contents = read_template_html_file("./HTML_FILES/Error.html").render()
+                if "json" in arguments.keys():
+                    content_type = "application/json"
+                    context["karyotype"] = "ERROR, MUST ENTER A VALID SPECIES"
+                    contents = str(context)
+                else:
+                    content_type = "text/html"
+                    contents = read_template_html_file("./HTML_FILES/Error.html").render()
 
         #3. GET CHROMOSOME LENGTH
         elif path_name == "/chromosomeLength":
@@ -118,14 +140,40 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
             count = 0
             if response.status == 200:
                 response = json.loads(response.read().decode())
-                for chromosome in response["top_level_region"]:
-                    if chromosome["coord_system"] == "chromosome" and chromosome["name"] == arguments["chromo"][0]:
-                        context["chromosome_length"] = chromosome["length"]
-                        count += 1
-            if count != 0:
-                contents = read_template_html_file("./HTML_FILES/chromosome_length.html").render(context=context)
+                #JSON APPLICATION
+                if "json" in arguments.keys():
+                    for chromosome in response["top_level_region"]:
+                        if chromosome["coord_system"] == "chromosome" and chromosome["name"] == arguments["chromo"][0]:
+                            json_chromosome = chromosome
+                            count += 1
+                    content_type = "application/json"
+                    if count != 0:
+                        contents = str(json_chromosome)
+                    else:
+                        context["chromosome"] = "ERROR, MUST CHECK THE NAME OF THE CHROMOSOME"
+                        contents = str(context)
+
+                #HTML APPLICATION
+                else:
+                    content_type = "text/html"
+                    for chromosome in response["top_level_region"]:
+                        if chromosome["coord_system"] == "chromosome" and chromosome["name"] == arguments["chromo"][0]:
+                            context["chromosome_length"] = chromosome["length"]
+                            count += 1
+                    if count != 0:
+                        contents = read_template_html_file("./HTML_FILES/chromosome_length.html").render(context=context)
+                    else:
+                        contents = read_template_html_file("./HTML_FILES/Error.html").render()
             else:
-                contents = read_template_html_file("./HTML_FILES/Error.html").render()
+                if "json" in arguments.keys():
+                    content_type = "application/json"
+                    context["species"] = "ERROR, MUST CHECK THE NAME OF THE SPECIES"
+                    contents = str(context)
+                else:
+                    content_type = "text/html"
+                    contents = read_template_html_file("./HTML_FILES/Error.html").render()
+
+        #4 GET HUMAN GENETIC SEQUENCE
         elif path_name == "/geneSeq":
             endpoint = "/sequence/id/"
             try:
@@ -136,12 +184,28 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                 response = connection.getresponse()
                 if response.status == 200:
                     response = json.loads(response.read().decode())
-                    context["sequence"] = response["seq"]
                     context["gene_name"] = gene
-                contents = read_template_html_file("./HTML_FILES/gene_sequence.html").render(context=context)
+                    context["sequence"] = response["seq"]
+                    #JSON
+                    if "json" in arguments.keys():
+                        content_type = "application/json"
+                        contents = str(context)
+                    #HTML
+                    else:
+                        content_type = "text/html"
+                        contents = read_template_html_file("./HTML_FILES/gene_sequence.html").render(context=context)
             except KeyError:
-                contents = read_template_html_file("./HTML_FILES/Error.html").render()
+                #JSON
+                if "json" in arguments.keys():
+                    content_type = "application/json"
+                    context["sequence"] = "ERROR, MUST ENTER A HUMAN GENE"
+                    contents = str(context)
+                #HTML
+                else:
+                    content_type = "text/html"
+                    contents = read_template_html_file("./HTML_FILES/Error.html").render()
 
+        #5 GET INFO ABOUT GENETIC SEQUENCE
         elif path_name == "/geneInfo":
             endpoint = "/sequence/id/"
             try:
@@ -160,10 +224,24 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                     context["length"] = int(context["end"]) - int(context["start"])
                     context["id"] = id
                     context["chromosome_name"] = gene_info_data[2]
-                contents = read_template_html_file("./HTML_FILES/gene_info.html").render(context=context)
+                    #JSON
+                    if "json" in arguments.keys():
+                        content_type = "application/json"
+                        contents = str(context)
+                    #HTML
+                    else:
+                        content_type = "text/html"
+                        contents = read_template_html_file("./HTML_FILES/gene_info.html").render(context=context)
             except KeyError:
-                contents = read_template_html_file("./HTML_FILES/Error.html").render()
+                if "json" in arguments.keys():
+                    content_type = "application/json"
+                    context["gene_name"] = "ERROR, INSERT THE NAME OF HUMAN GENE"
+                    contents = str(context)
+                else:
+                    content_type = "text/html"
+                    contents = read_template_html_file("./HTML_FILES/Error.html").render()
 
+        # 6. CALCULATE GENE BASES PERCENTAGES
         elif path_name == "/geneCalc":
             endpoint = "/sequence/id/"
             try:
@@ -178,40 +256,57 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                     context["gene_name"] = gene
                     context["length"] = sequence.len()
                     context["percentages"] = sequence.info()
-                contents = read_template_html_file("./HTML_FILES/gene_calc.html").render(context=context)
+                    if "json" in arguments.keys():
+                        content_type = "application/json"
+                        context["percentages"] = context["percentages"].strip("\n")
+                        contents = str(context)
+                    else:
+                        content_type = "text/html"
+                        contents = read_template_html_file("./HTML_FILES/gene_calc.html").render(context=context)
             except KeyError:
-                contents = read_template_html_file("./HTML_FILES/Error.html").render()
+                if "json" in arguments.keys():
+                    content_type = "application/json"
+                    context["gene_name"] = "ERROR, YOU MUST ENTER A VALID NAME FOR THE GENE"
+                    contents = str(context)
+                else:
+                    content_type = "text/html"
+                    contents = read_template_html_file("./HTML_FILES/Error.html").render()
 
         else:
+            content_type = "text/html"
             contents = read_template_html_file("./HTML_FILES/Error.html").render()
 
         #TO TEST EVERYTHING
-        test = 1
-        file = Path("tryout.txt").open("a")
-        if path_name != "/favicon.ico" and path_name != "/":
+        if not "json" in arguments.keys():
+            #CHANGE MANUALLY THE FILE NAME TO TEST BASIC, MEDIUM, ADVANCE
+            file = Path("report-medium.txt").open("a")
             my_endpoint = path_name.strip("/")
-            file.write(f"----> {my_endpoint} endpoint \n")
-            #CHANGE NUMBER OF TEST MANUALLY
-            file.write(f"TEST {test} \n\n")
-            file.write(f"* Input: http://127.0.0.1:8080{self.path} \n"
-                       f"\n"
-                       f"* Output: \n\n")
-            file.write(contents)
-            file.write("\n\n"
-                       "==================\n")
-        else:
-            pass
-        file.close()
+            if path_name != "/favicon.ico" and path_name != "/":
+                #my_endpoint = path_name.strip("/")
+                file.write(f"----> {my_endpoint} endpoint \n")
+                # CHANGE NUMBER OF TEST MANUALLY
+                file.write(f"TEST \n\n")
+                file.write(f"* Input: http://127.0.0.1:8080{self.path} \n"
+                           f"\n"
+                           f"* Output: \n\n")
+                file.write(contents)
+                file.write("\n\n"
+                           "==================\n")
+            else:
+                pass
+            file.close()
 
         # Generating the response message
         self.send_response(200)  # -- Status line: OK!
+
+        self.send_header('Content-Type', content_type)
         if "json" in arguments.keys():
-            self.send_header('Content-Type', 'application/json')
-            self.send_header('Content-Length', len(response.encode()))
+            #self.send_header('Content-Type', "application/json")
+            self.send_header('Content-Length', len(str.encode(contents)))
         else:
-        # Define the content-type header:
-            self.send_header('Content-Type', 'text/html')
+            #self.send_header('Content-Type', "text/html")
             self.send_header('Content-Length', len(contents.encode()))
+        # Define the content-type header:
 
         # The header is finished
         self.end_headers()
