@@ -277,7 +277,7 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
 
         #TO TEST EVERYTHING
         if not "json" in arguments.keys():
-            #CHANGE MANUALLY THE FILE NAME TO TEST BASIC, MEDIUM, ADVANCE
+            #CHANGE MANUALLY THE FILE NAME TO TEST BASIC, MEDIUM
             file = Path("report-medium.txt").open("a")
             my_endpoint = path_name.strip("/")
             if path_name != "/favicon.ico" and path_name != "/":
