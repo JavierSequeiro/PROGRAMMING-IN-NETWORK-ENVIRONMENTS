@@ -294,6 +294,7 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
             else:
                 pass
             file.close()
+
         # Generating the response message
         self.send_response(200)  # -- Status line: OK!
 
