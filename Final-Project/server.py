@@ -99,7 +99,7 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
             # JSON
             if "json" in arguments.keys() and arguments["json"][0] == "1":
                 content_type = "application/json"
-                contents = str(context)
+                contents = json.dumps(context)
             # HTML
             else:
                 contents = read_template_html_file("./HTML_FILES/listSpecies.html").render(context=context)
@@ -120,7 +120,7 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                 # JSON
                 if "json" in arguments.keys() and arguments["json"][0] == "1":
                     content_type = "application/json"
-                    contents = str(context)
+                    contents = json.dumps(context)
                 # HTML
                 else:
                     contents = read_template_html_file("./HTML_FILES/karyotype.html").render(context=context)
@@ -128,7 +128,7 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                 if "json" in arguments.keys():
                     content_type = "application/json"
                     context["karyotype"] = "ERROR, MUST ENTER A VALID SPECIES"
-                    contents = str(context)
+                    contents = json.dumps(context)
                 else:
                     content_type = "text/html"
                     contents = read_template_html_file("./HTML_FILES/Error.html").render()
@@ -151,10 +151,10 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                             count += 1
                     content_type = "application/json"
                     if count != 0:
-                        contents = str(json_chromosome)
+                        contents = json.dumps(json_chromosome)
                     else:
                         context["chromosome"] = "ERROR, MUST CHECK THE NAME OF THE CHROMOSOME"
-                        contents = str(context)
+                        contents = json.dumps(context)
 
                 # HTML APPLICATION
                 else:
@@ -164,15 +164,14 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                             context["chromosome_length"] = chromosome["length"]
                             count += 1
                     if count != 0:
-                        contents = read_template_html_file("./HTML_FILES/chromosome_length.html").render(
-                            context=context)
+                        contents = read_template_html_file("./HTML_FILES/chromosome_length.html").render(context=context)
                     else:
                         contents = read_template_html_file("./HTML_FILES/Error.html").render()
             else:
                 if "json" in arguments.keys() and arguments["json"][0] == "1":
                     content_type = "application/json"
                     context["species"] = "ERROR, MUST CHECK THE NAME OF THE SPECIES"
-                    contents = str(context)
+                    contents = json.dumps(context)
                 else:
                     content_type = "text/html"
                     contents = read_template_html_file("./HTML_FILES/Error.html").render()
@@ -193,7 +192,7 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                     # JSON
                     if "json" in arguments.keys() and arguments["json"][0] == "1":
                         content_type = "application/json"
-                        contents = str(context)
+                        contents = json.dumps(context)
                     # HTML
                     else:
                         content_type = "text/html"
@@ -203,7 +202,7 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                 if "json" in arguments.keys() and arguments["json"][0] == "1":
                     content_type = "application/json"
                     context["sequence"] = "ERROR, MUST ENTER A HUMAN GENE"
-                    contents = str(context)
+                    contents = json.dumps(context)
                 # HTML
                 else:
                     content_type = "text/html"
@@ -231,7 +230,7 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                     # JSON
                     if "json" in arguments.keys() and arguments["json"][0] == "1":
                         content_type = "application/json"
-                        contents = str(context)
+                        contents = json.dumps(context)
                     # HTML
                     else:
                         content_type = "text/html"
@@ -240,7 +239,7 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                 if "json" in arguments.keys() and arguments["json"][0] == "1":
                     content_type = "application/json"
                     context["gene_name"] = "ERROR, INSERT THE NAME OF HUMAN GENE"
-                    contents = str(context)
+                    contents = json.dumps(context)
                 else:
                     content_type = "text/html"
                     contents = read_template_html_file("./HTML_FILES/Error.html").render()
@@ -263,7 +262,7 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                     if "json" in arguments.keys() and arguments["json"][0] == "1":
                         content_type = "application/json"
                         context["percentages"] = context["percentages"].strip("\n")
-                        contents = str(context)
+                        contents = json.dumps(context)
                     else:
                         content_type = "text/html"
                         contents = read_template_html_file("./HTML_FILES/gene_calc.html").render(context=context)
@@ -271,7 +270,7 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                 if "json" in arguments.keys() and arguments["json"][0] == "1":
                     content_type = "application/json"
                     context["gene_name"] = "ERROR, YOU MUST ENTER A VALID NAME FOR THE GENE"
-                    contents = str(context)
+                    contents = json.dumps(context)
                 else:
                     content_type = "text/html"
                     contents = read_template_html_file("./HTML_FILES/Error.html").render()
